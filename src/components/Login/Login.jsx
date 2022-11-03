@@ -36,7 +36,7 @@ const BtnStyle = styled.button`
   width: 430px;
   height: 58px;
   border: none;
-  background-color: #28c700b0;
+  background-color: #6CDC84;
   font-size: 23px;
   color: #fff;
   font-weight: bold;
@@ -46,10 +46,10 @@ const BtnStyle = styled.button`
 `;
 
 const Login = () => {
-  const [nickName, setNickName] = useState("");
+  const [username, setUserame] = useState("");
   
   const onClickHandler = () => {
-    localStorage.setItem("nickName", nickName);
+    localStorage.setItem("username", username);
   }
 
   return (
@@ -57,7 +57,7 @@ const Login = () => {
       <TitleStyle>
       👋<TextStyle>닉네임을 입력하여 <br /> 로그인하세요</TextStyle>
       </TitleStyle>
-      <InputStyle onChange={e => setNickName(e.target.value)} value={nickName} />
+      <InputStyle onChange={e => setUserame(e.target.value)} value={username} />
       <BtnStyle onClick={onClickHandler}>로그인</BtnStyle>
     </LoginStyle>
   );
