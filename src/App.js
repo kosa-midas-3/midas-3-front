@@ -1,13 +1,20 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
+import Header from "./components/header/Header";
+import { getUserName } from "./util/getUsername";
+import Time from "./components/time/Time";
 
 function App() {
   return (
-    <Layout
-      justify={localStorage.getItem("username") ? "space-between" : "center"}
-    >
-      asd
+    <Layout justify={getUserName() ? "space-between" : "center"}>
+      {getUserName() ? (
+        <>
+          <Header />
+          <Time />
+        </>
+      ) : (
+        <></>
+      )}
     </Layout>
   );
 }
