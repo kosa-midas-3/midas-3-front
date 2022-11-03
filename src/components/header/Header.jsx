@@ -25,13 +25,13 @@ const UserStatus = styled.div`
   margin-left: 60px;
 `;
 
-const Header = ({ name, infoRefetch }) => {
+const Header = ({ name, infoRefetch, homeApplyStatus }) => {
   return (
     <HeaderStyle>
       <UserStatus>
         오늘&nbsp;<span>{name}</span>님은 회사근무 일입니다.
       </UserStatus>
-      <AtHome infoRefetch={infoRefetch} />
+      <AtHome infoRefetch={infoRefetch} homeApplyStatus={homeApplyStatus} />
     </HeaderStyle>
   );
 };

@@ -25,7 +25,7 @@ const AtHomeContainer = styled.div`
   cursor: pointer;
 `;
 
-const AtHome = ({ infoRefetch }) => {
+const AtHome = ({ infoRefetch, homeApplyStatus }) => {
   const { modalRef, open, setIsOpen } = useModal("home");
 
   const { mutate } = useMutation(homeApply, {
@@ -34,12 +34,19 @@ const AtHome = ({ infoRefetch }) => {
     },
   });
 
+  const obj = {
+    HOME_APPLY: "승인 대기 중",
+    NOTHING: "재택 신청",
+    REFUSED: "거절됨",
+    ACCEPTED: "수락됨",
+  };
+
   return (
     <>
       <AtHomeContainer onClick={() => setIsOpen(true)}>
-        재택 신청
+        {obj[homeApplyStatus]}
       </AtHomeContainer>
-      {open && (
+      {homeApplyStatus === "NOTHING" && open && (
         <ConfirmModal
           modalRef={modalRef}
           setIsOpen={setIsOpen}

@@ -33,7 +33,6 @@ const TimeWrite = styled.p`
   font-style: normal;
   font-weight: 700;
   font-size: 128px;
-  line-height: 155px;
   /* identical to box height */
 
   color: #000000;
@@ -50,7 +49,13 @@ const Loading = styled.div`
   height: 80vh;
 `;
 
-const Time = ({ startTime, infoRefetch, workingStatus, isLoading }) => {
+const Time = ({
+  startTime,
+  infoRefetch,
+  workingStatus,
+  isLoading,
+  isGoneToWork,
+}) => {
   const attend = async () => {
     let data;
     if (!workingStatus || workingStatus === "LEAVE") {
@@ -70,8 +75,14 @@ const Time = ({ startTime, infoRefetch, workingStatus, isLoading }) => {
 
   return (
     <TimeContainer>
-      {workingStatus !== "LEAVE" && <p className="p">퇴근까지</p>}
-      <SelectType startTime={startTime} workingStatus={workingStatus} />
+      {isGoneToWork && workingStatus !== "LEAVE" && (
+        <p className="p">퇴근까지</p>
+      )}
+      <SelectType
+        startTime={startTime}
+        workingStatus={workingStatus}
+        isGoneToWork={isGoneToWork}
+      />
       <Button
         color={workingStatus && workingStatus !== "LEAVE" ? "black" : "green"}
         size="lg"
@@ -83,15 +94,51 @@ const Time = ({ startTime, infoRefetch, workingStatus, isLoading }) => {
   );
 };
 
-const SelectType = ({ startTime, workingStatus }) => {
+const SelectType = ({
+  startTime,
+  workingStatus,
+  isGoneToWork,
+  coreStartTime,
+  coreReason,
+  coreEndTime,
+}) => {
   return (
     <TimeWrite>
-      {workingStatus && workingStatus !== "LEAVE" && (
+      {isGoneToWork && workingStatus && workingStatus !== "LEAVE" && (
         <Work startTime={startTime} />
       )}
       {/* {isWorking && "+01:02:17"} */}
-      {(!workingStatus || workingStatus === "LEAVE") && "편안한 휴식 하세요!"}
+      {isGoneToWork &&
+        (!workingStatus || workingStatus === "LEAVE") &&
+        "편안한 휴식 하세요!"}
+      {!isGoneToWork && coreStartTime && (
+        <Core
+          coreStartTime={coreStartTime}
+          coreEndTime={coreEndTime}
+          coreReason={coreReason}
+        />
+      )}
+      {!isGoneToWork && !coreStartTime && <div>08:00:00</div>}
     </TimeWrite>
+  );
+};
+
+const CoreContainer = styled.ul`
+  list-style: none;
+  text-align: left;
+  > li {
+    font-size: 35px;
+    margin: 0;
+    padding: 0;
+  }
+`;
+const Core = ({ coreStartTime, coreReason, coreEndTime }) => {
+  return (
+    <CoreContainer>
+      <li>시작시간: {coreStartTime}</li>
+      <li>종료시간: {coreEndTime}</li>
+      <li>사유: {coreReason}</li>
+    </CoreContainer>
   );
 };
 
