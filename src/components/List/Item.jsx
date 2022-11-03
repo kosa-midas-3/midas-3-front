@@ -61,7 +61,7 @@ const Item = ({ v, department }) => {
     <BoxStyle>
       <TextStyle>
         {department}
-        <NameStyle>김의찬</NameStyle>
+        <NameStyle>{v.nickname}</NameStyle>
       </TextStyle>
       <TimeStyle>
         {v.startTime &&

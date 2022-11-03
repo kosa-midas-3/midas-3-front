@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Modal from "../../modal/Modal";
-import ModalBackGround from "../../modal/ModalBackGround";
+import { ConfirmModal, useModal } from "@kimuichan/ui-base";
+import { useMutation } from "react-query";
+import { homeApply } from "../../../api/Auth/Auth.api";
 
 const AtHomeContainer = styled.div`
   width: 192.21px;
@@ -24,20 +25,34 @@ const AtHomeContainer = styled.div`
   cursor: pointer;
 `;
 
-const AtHome = () => {
-  const [isOpened, setIsOpened] = useState(false);
+const AtHome = ({ infoRefetch }) => {
+  const { modalRef, open, setIsOpen } = useModal("home");
 
-  const open = () => {
-    setIsOpened(true);
-  };
+  const { mutate } = useMutation(homeApply, {
+    onSuccess: () => {
+      infoRefetch();
+    },
+  });
 
   return (
     <>
-      <AtHomeContainer onClick={open}>재택 신청</AtHomeContainer>
-      {/* 모달 */}
-      <ModalBackGround isOpened={isOpened} setIsOpened={setIsOpened}>
-        <Modal description="재택 신청 하시겠습니까" type="atHome" />
-      </ModalBackGround>
+      <AtHomeContainer onClick={() => setIsOpen(true)}>
+        재택 신청
+      </AtHomeContainer>
+      {open && (
+        <ConfirmModal
+          modalRef={modalRef}
+          setIsOpen={setIsOpen}
+          text={{
+            accept: "예",
+            refuse: "아니오",
+            title: "재택을\n신청하시겠습니까?",
+          }}
+          onFinally={(result) => {
+            result && mutate();
+          }}
+        ></ConfirmModal>
+      )}
     </>
   );
 };

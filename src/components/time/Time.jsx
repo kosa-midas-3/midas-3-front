@@ -17,6 +17,8 @@ const TimeContainer = styled.div`
   font-style: normal;
   color: #000000;
 
+  /* margin-top: 100px; */
+
   .p {
     font-weight: 700;
     font-size: 32px;
@@ -41,6 +43,11 @@ const TimeWrite = styled.p`
 const Loading = styled.div`
   font-size: 30px;
   font-weight: 700;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
 `;
 
 const Time = ({ startTime, infoRefetch, workingStatus, isLoading }) => {

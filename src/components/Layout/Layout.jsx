@@ -8,7 +8,7 @@ const LayoutStyle = styled.div`
   flex-direction: column;
   justify-content: ${(prop) => prop.justify};
   align-items: center;
-  padding-bottom: 62px;
+  /* padding-bottom: 62px; */
 `;
 
 const Layout = ({ justify, children }) => {

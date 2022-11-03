@@ -20,3 +20,8 @@ export const deleteAttend = async () => {
   console.log(data);
   return data;
 };
+
+export const homeApply = async () => {
+  const { data } = await CustomAxios.post(`/home​/apply?name=${getUserName()}`);
+  console.log(data);
+};

@@ -9,6 +9,9 @@ const ListStyle = styled.div`
   flex-grow: 0;
   overflow-x: scroll;
 
+  margin: 0 auto;
+  /* margin-top: 30px; */
+
   ::-webkit-scrollbar {
     display: none;
   }
