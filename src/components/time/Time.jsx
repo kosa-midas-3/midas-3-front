@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { minus1Second } from "../../util/changeTime";
 
 const TimeContainer = styled.div`
   display: flex;
@@ -56,26 +57,9 @@ const SelectType = ({ type }) => {
 const Work = () => {
   const [time, setTime] = useState("08:00:00");
 
-  const zero = (value) => {
-    return value.toString().length < 2 ? "0" + value : value;
-  };
-
-  const minus1Second = () => {
-    setTime((prev) => {
-      const k = prev.split(":");
-      if (Number(k[2]) > 0) {
-        return k[0] + ":" + k[1] + ":" + zero(Number(k[2]) - 1);
-      } else if (Number(k[2]) === 0 && Number(k[1]) > 0) {
-        return k[0] + ":" + zero(Number(k[1]) - 1) + ":" + "59";
-      } else if (Number(k[1]) === 0 && Number(k[0]) > 0) {
-        return zero(Number(k[0]) - 1) + ":" + "59" + ":" + "59";
-      }
-    });
-  };
-
   useEffect(() => {
     setInterval(() => {
-      minus1Second();
+      minus1Second(setTime);
     }, 1000);
   }, []);
 

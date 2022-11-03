@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { getUserName } from "../../util/getUsername";
 
-const LoginStyle = styled.div`
+const LoginStyle = styled.form`
   width: 500px;
   height: 500px;
   display: flex;
@@ -36,7 +37,7 @@ const BtnStyle = styled.button`
   width: 430px;
   height: 58px;
   border: none;
-  background-color: #6CDC84;
+  background-color: #6cdc84;
   font-size: 23px;
   color: #fff;
   font-weight: bold;
@@ -45,22 +46,29 @@ const BtnStyle = styled.button`
   cursor: pointer;
 `;
 
-const Login = () => {
+const Login = ({ setLogin }) => {
   const [username, setUserame] = useState("");
-  
+
   const onClickHandler = () => {
     localStorage.setItem("username", username);
-  }
+    setLogin(getUserName());
+  };
 
   return (
     <LoginStyle>
       <TitleStyle>
-      👋<TextStyle>닉네임을 입력하여 <br /> 로그인하세요</TextStyle>
+        👋
+        <TextStyle>
+          닉네임을 입력하여 <br /> 로그인하세요
+        </TextStyle>
       </TitleStyle>
-      <InputStyle onChange={e => setUserame(e.target.value)} value={username} />
+      <InputStyle
+        onChange={(e) => setUserame(e.target.value)}
+        value={username}
+      />
       <BtnStyle onClick={onClickHandler}>로그인</BtnStyle>
     </LoginStyle>
   );
-}
+};
 
 export default Login;
