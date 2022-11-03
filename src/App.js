@@ -1,11 +1,8 @@
-import "./App.css";
 import Layout from "./components/Layout/Layout";
-import Header from "./components/header/Header";
 import { getUserName } from "./util/getUsername";
-import Time from "./components/time/Time";
 import Login from "./components/Login/Login";
-import List from "./components/List/List";
 import { useEffect, useState } from "react";
+import Home from "./page/Home";
 
 function App() {
   const [login, setLogin] = useState(null);
@@ -16,15 +13,7 @@ function App() {
 
   return (
     <Layout justify={login ? "space-between" : "center"}>
-      {login ? (
-        <>
-          <Header />
-          <Time />
-          <List />
-        </>
-      ) : (
-        <Login setLogin={setLogin} />
-      )}
+      {login ? <Home /> : <Login setLogin={setLogin} />}
     </Layout>
   );
 }

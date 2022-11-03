@@ -4,10 +4,14 @@ import Item from "./Item";
 
 const ListStyle = styled.div`
   display: flex;
-  gap: 19px;
+  gap: 30px;
   width: 792px;
   flex-grow: 0;
   overflow-x: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const List = () => {
