@@ -52,6 +52,7 @@ const Home = () => {
           name={data?.nickname}
           infoRefetch={refetch}
           homeApplyStatus={data?.homeApplyStatus}
+          workingMode={data?.workingMode}
         />
         <Time
           workingStatus={data?.workingStatus}

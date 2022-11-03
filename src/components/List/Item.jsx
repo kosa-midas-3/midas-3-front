@@ -8,7 +8,7 @@ const BoxStyle = styled.div`
   width: 200px;
   height: 200px;
   padding: 0 15px;
-  border: 2px solid #6cdc84;
+  border: 2px solid ${(props) => (props.time === "green" ? "#6cdc84" : "#ccc")};
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -57,25 +57,31 @@ const Item = ({ v, department }) => {
     }
   }, []);
 
+  const obj = {
+    GO: "green",
+    LEAVE: "gray",
+  };
+
   return (
-    <BoxStyle>
+    <BoxStyle time={v.startTime ? "green" : "gray"}>
       <TextStyle>
         {department}
         <NameStyle>{v.nickname}</NameStyle>
       </TextStyle>
       <TimeStyle>
-        {v.startTime &&
-          zero(time.hour()) +
+        {v.startTime
+          ? zero(time.hour()) +
             ":" +
             zero(time.minute()) +
             ":" +
-            zero(time.second())}
+            zero(time.second())
+          : "충전하는 중"}
       </TimeStyle>
       <BtnAreaStyle>
-        <Tag color={v.workingMode === "COMPANY" ? "green" : "black"}>
-          근무중
+        <Tag color={obj[v.workingStatus]}>근무중</Tag>
+        <Tag color={v.workingMode === "COMPANY" ? "blackBorder" : "black"}>
+          {v.workingMode !== "COMPANY" ? "재택근무" : "회사근무"}
         </Tag>
-        <Tag color="black">재택근무</Tag>
       </BtnAreaStyle>
     </BoxStyle>
   );

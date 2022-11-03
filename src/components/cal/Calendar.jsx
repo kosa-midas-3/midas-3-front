@@ -78,7 +78,8 @@ export const CalLi = styled.li`
   font-size: 12px;
   padding: 2px;
   padding-left: 10px;
-  background-color: red;
+  background-color: ${(props) =>
+    props.back === "true" ? "rgba(108, 220, 132, 1)" : "red"};
   color: white;
   border-radius: 5px;
   margin-bottom: 1px;
@@ -121,9 +122,9 @@ const Calendar = () => {
   return (
     <CalendarContainer>
       <CalHeader>
-        <DateButton onClick={leftClick}>왼</DateButton>
+        <DateButton onClick={leftClick}>{"<"}</DateButton>
         <CurrentMonth>{year + "년" + (month + 1) + "월"}</CurrentMonth>
-        <DateButton onClick={rightClick}>오</DateButton>
+        <DateButton onClick={rightClick}>{">"}</DateButton>
       </CalHeader>
       <CalTop>
         <span>Sun</span>
@@ -142,9 +143,12 @@ const Calendar = () => {
           <CalItem>
             <CalItemNum>{idx + 1}</CalItemNum>
             <CalUl>
-              {/* {data.days?.map((v) => (
-                <CalLi>{v ? v : ""}</CalLi>
-              ))} */}
+              {data?.days[idx + 1] && (
+                <CalLi back={data.days[idx + 1] > 0 ? "true" : "false"}>
+                  {Math.abs(data.days[idx + 1])} 시간{" "}
+                  {data.days[idx + 1] > 0 ? "초과" : "미달"}{" "}
+                </CalLi>
+              )}
             </CalUl>
           </CalItem>
         ))}
