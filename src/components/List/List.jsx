@@ -14,13 +14,12 @@ const ListStyle = styled.div`
   }
 `;
 
-const List = () => {
+const List = ({ department }) => {
   return (
     <ListStyle>
-      <Item />
-      <Item />
-      <Item />
-      <Item />
+      {department?.members.map((v) => (
+        <Item v={v} department={department.department} />
+      ))}
     </ListStyle>
   );
 };

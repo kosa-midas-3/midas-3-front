@@ -1,1 +1,4 @@
-export const getUserName = () => localStorage.getItem("username");
+export const getUserName = () => {
+  const username = localStorage.getItem("username");
+  return username ? username : "";
+};

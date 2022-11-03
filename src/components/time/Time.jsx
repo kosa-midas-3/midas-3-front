@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { minus1Second } from "../../util/changeTime";
+import { zero, timeCa } from "../../util/changeTime";
+import { Button } from "@kimuichan/ui-base";
+import { deleteAttend, postAttend, postAuth } from "../../api/Auth/Auth.api";
+import { useMutation } from "react-query";
 
 const TimeContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  text-align: center;
 
   font-family: "Inter";
   font-style: normal;
@@ -33,37 +38,78 @@ const TimeWrite = styled.p`
   margin: 0;
 `;
 
-const Time = () => {
+const Loading = styled.div`
+  font-size: 30px;
+  font-weight: 700;
+`;
+
+const Time = ({ startTime, infoRefetch, workingStatus, isLoading }) => {
+  const attend = async () => {
+    let data;
+    if (!workingStatus || workingStatus === "LEAVE") {
+      data = await postAttend();
+    } else {
+      data = await deleteAttend();
+    }
+    // const res = await postAuth();
+  };
+  const { mutate } = useMutation(attend, {
+    onSuccess: () => infoRefetch(),
+  });
+
+  if (isLoading) {
+    return <Loading>Loading...</Loading>;
+  }
+
   return (
     <TimeContainer>
-      <p className="p">퇴근까지</p>
-      <SelectType type="work" />
-      <button>퇴근</button>
+      {workingStatus !== "LEAVE" && <p className="p">퇴근까지</p>}
+      <SelectType startTime={startTime} workingStatus={workingStatus} />
+      <Button
+        color={workingStatus && workingStatus !== "LEAVE" ? "black" : "green"}
+        size="lg"
+        onClick={mutate}
+      >
+        {workingStatus && workingStatus !== "LEAVE" ? "퇴근" : "출근"}
+      </Button>
     </TimeContainer>
   );
 };
 
-const SelectType = ({ type }) => {
+const SelectType = ({ startTime, workingStatus }) => {
   return (
     <TimeWrite>
-      {type === "work" && <Work />}
-      {type === "full" && "+01:02:17"}
-      {type === "start" && "08:00:00"}
-      {type === "end" && "편안한 휴식 하세요!"}
+      {workingStatus && workingStatus !== "LEAVE" && (
+        <Work startTime={startTime} />
+      )}
+      {/* {isWorking && "+01:02:17"} */}
+      {(!workingStatus || workingStatus === "LEAVE") && "편안한 휴식 하세요!"}
     </TimeWrite>
   );
 };
 
-const Work = () => {
-  const [time, setTime] = useState("08:00:00");
+const Work = ({ startTime }) => {
+  const [time, setTime] = useState(timeCa(startTime));
 
   useEffect(() => {
-    setInterval(() => {
-      minus1Second(setTime);
-    }, 1000);
+    if (startTime) {
+      setInterval(() => {
+        setTime((prev) => {
+          return prev.subtract(1, "second");
+        });
+      }, 1000);
+    }
   }, []);
 
-  return <div>{time}</div>;
+  return (
+    <div>
+      {zero(time.hour()) +
+        ":" +
+        zero(time.minute()) +
+        ":" +
+        zero(time.second())}
+    </div>
+  );
 };
 
 export default Time;

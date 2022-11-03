@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { minus1Second } from "../../util/changeTime";
+import { timeCa, zero } from "../../util/changeTime";
+import { Tag } from "@kimuichan/ui-base";
+import dayjs from "dayjs";
 
 const BoxStyle = styled.div`
   width: 200px;
@@ -38,51 +40,42 @@ const BtnAreaStyle = styled.div`
   height: 40px;
   display: flex;
   justify-content: space-between;
-`;
-const State1Style = styled.p`
-  width: 90px;
-  height: 27px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #6cdc84;
-  border: none;
-  border-radius: 5px;
-  margin: 0;
   text-align: center;
   line-height: 25px;
 `;
 
-const State2Style = styled.p`
-  width: 90px;
-  height: 27px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #000;
-  border: none;
-  border-radius: 5px;
-  margin: 0;
-  text-align: center;
-  line-height: 25px;
-`;
-
-const Item = () => {
-  const [time, setTime] = useState("08:10:17");
+const Item = ({ v, department }) => {
+  const [time, setTime] = useState(timeCa(v.startTime));
 
   useEffect(() => {
-    setInterval(() => {
-      minus1Second(setTime);
-    }, 1000);
+    if (time) {
+      setInterval(() => {
+        setTime((prev) => {
+          return prev.subtract(1, "second");
+        });
+      }, 1000);
+    }
   }, []);
 
   return (
     <BoxStyle>
       <TextStyle>
-        인사팀<NameStyle>김의찬</NameStyle>
+        {department}
+        <NameStyle>김의찬</NameStyle>
       </TextStyle>
-      <TimeStyle>{time}</TimeStyle>
+      <TimeStyle>
+        {v.startTime &&
+          zero(time.hour()) +
+            ":" +
+            zero(time.minute()) +
+            ":" +
+            zero(time.second())}
+      </TimeStyle>
       <BtnAreaStyle>
-        <State1Style>근무중</State1Style>
-        <State2Style>재택근무</State2Style>
+        <Tag color={v.workingMode === "COMPANY" ? "green" : "black"}>
+          근무중
+        </Tag>
+        <Tag color="black">재택근무</Tag>
       </BtnAreaStyle>
     </BoxStyle>
   );
