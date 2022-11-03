@@ -55,6 +55,9 @@ const Time = ({
   workingStatus,
   isLoading,
   isGoneToWork,
+  coreStartTime,
+  coreReason,
+  coreEndTime,
 }) => {
   const attend = async () => {
     let data;
@@ -82,6 +85,9 @@ const Time = ({
         startTime={startTime}
         workingStatus={workingStatus}
         isGoneToWork={isGoneToWork}
+        coreStartTime={coreStartTime}
+        coreEndTime={coreEndTime}
+        coreReason={coreReason}
       />
       <Button
         color={workingStatus && workingStatus !== "LEAVE" ? "black" : "green"}
@@ -111,14 +117,14 @@ const SelectType = ({
       {isGoneToWork &&
         (!workingStatus || workingStatus === "LEAVE") &&
         "편안한 휴식 하세요!"}
-      {!isGoneToWork && coreStartTime && (
+      {!isGoneToWork && coreStartTime !== null && (
         <Core
           coreStartTime={coreStartTime}
           coreEndTime={coreEndTime}
           coreReason={coreReason}
         />
       )}
-      {!isGoneToWork && !coreStartTime && <div>08:00:00</div>}
+      {!isGoneToWork && coreStartTime === null && <div>08:00:00</div>}
     </TimeWrite>
   );
 };
@@ -127,10 +133,12 @@ const CoreContainer = styled.ul`
   list-style: none;
   text-align: left;
   > li {
-    font-size: 35px;
+    font-size: 45px;
     margin: 0;
     padding: 0;
   }
+
+  margin-bottom: 20px;
 `;
 const Core = ({ coreStartTime, coreReason, coreEndTime }) => {
   return (
