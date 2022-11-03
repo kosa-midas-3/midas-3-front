@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { getUserName } from "../../util/getUsername";
-
+import { FullInput, useInput, FullButton } from "@kimuichan/ui-base";
 const LoginStyle = styled.form`
   width: 500px;
+  padding: 50px;
   height: 500px;
   display: flex;
   flex-direction: column;
@@ -25,14 +26,6 @@ const TextStyle = styled.p`
   font-weight: bold;
 `;
 
-const InputStyle = styled.input`
-  width: 430px;
-  height: 50px;
-  border: 3px solid #eee;
-  border-radius: 10px;
-  margin-bottom: 50px;
-`;
-
 const BtnStyle = styled.button`
   width: 430px;
   height: 58px;
@@ -47,7 +40,7 @@ const BtnStyle = styled.button`
 `;
 
 const Login = ({ setLogin }) => {
-  const [username, setUserame] = useState("");
+  const [username, setUserame] = useInput("");
 
   const onClickHandler = () => {
     localStorage.setItem("username", username);
@@ -59,14 +52,16 @@ const Login = ({ setLogin }) => {
       <TitleStyle>
         👋
         <TextStyle>
-          닉네임을 입력하여 <br /> 로그인하세요
+          비밀번호를 입력하여 <br /> 로그인하세요
         </TextStyle>
       </TitleStyle>
-      <InputStyle
-        onChange={(e) => setUserame(e.target.value)}
+      <FullInput
+        onChange={setUserame}
         value={username}
+        placeholder="비밀번호를 입력하세요"
       />
-      <BtnStyle onClick={onClickHandler}>로그인</BtnStyle>
+
+      <FullButton onClick={onClickHandler}>로그인</FullButton>
     </LoginStyle>
   );
 };

@@ -63,13 +63,15 @@ const Item = ({ v, department }) => {
   };
 
   return (
-    <BoxStyle time={v.startTime ? "green" : "gray"}>
+    <BoxStyle
+      time={v.startTime && v.workingStatus !== "LEAVE" ? "green" : "gray"}
+    >
       <TextStyle>
         {department}
         <NameStyle>{v.nickname}</NameStyle>
       </TextStyle>
       <TimeStyle>
-        {v.startTime
+        {v.startTime && v.workingStatus !== "LEAVE"
           ? zero(time.hour()) +
             ":" +
             zero(time.minute()) +
