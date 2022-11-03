@@ -3,6 +3,7 @@ import Layout from "./components/Layout/Layout";
 import Header from "./components/header/Header";
 import { getUserName } from "./util/getUsername";
 import Time from "./components/time/Time";
+import Login from "./components/Login/Login";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
           <Time />
         </>
       ) : (
-        <></>
+        <Login />
       )}
     </Layout>
   );
